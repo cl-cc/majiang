@@ -43,9 +43,13 @@ export function tileImageFile(face: Pick<TileFace, 'suit' | 'primary'>): string 
   return honor === undefined ? null : `${honor}.png`
 }
 
-export function tileImageUrl(face: Pick<TileFace, 'suit' | 'primary'>): string | null {
-  const file = tileImageFile(face)
-  return file === null ? null : `/images/mahjong/${file}`
+function publicFile(path: string): string {
+  return `${import.meta.env.BASE_URL}${path}`
 }
 
-export const TILE_BACK_URL = `/images/mahjong/${TILE_BACK_FILE}`
+export function tileImageUrl(face: Pick<TileFace, 'suit' | 'primary'>): string | null {
+  const file = tileImageFile(face)
+  return file === null ? null : publicFile(`images/mahjong/${file}`)
+}
+
+export const TILE_BACK_URL = publicFile(`images/mahjong/${TILE_BACK_FILE}`)

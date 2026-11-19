@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { TILE_BACK_FILE, tileImageFile } from './tileImage'
+import { TILE_BACK_FILE, TILE_BACK_URL, tileImageFile, tileImageUrl } from './tileImage'
 import type { TileSuit } from './types'
 
 const imagePaths = import.meta.glob('../../public/images/mahjong/*.png')
@@ -31,6 +31,8 @@ describe('麻将牌图片', () => {
     }
     expect(used.size).toBe(34)
     expect([...used].every((file) => file.endsWith('.png'))).toBe(true)
+    expect(tileImageUrl({ suit: 'wan', primary: '一' })).toBe(`${import.meta.env.BASE_URL}images/mahjong/1m.png`)
+    expect(TILE_BACK_URL).toBe(`${import.meta.env.BASE_URL}images/mahjong/${TILE_BACK_FILE}`)
   })
 
   it('不认识的牌面不给出图片地址', () => {

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { onScopeDispose, ref } from 'vue'
 
-const TRACKS = ['/audio/ancient.mp3', '/audio/flute.mp3', '/audio/traditional.mp3'] as const
+const TRACKS = ['ancient.mp3', 'flute.mp3', 'traditional.mp3'].map(
+  (file) => `${import.meta.env.BASE_URL}audio/${file}`,
+)
 
 const on = ref(false)
 const player = ref<HTMLAudioElement | null>(null)
