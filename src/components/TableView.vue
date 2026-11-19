@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { formatScore } from '../game/labels'
-import type { PlayerCommand, SeatPlace } from '../game/types'
+import type { PlayerCommand } from '../game/types'
 import { useGame } from '../game/useGame'
 import ActionBar from './ActionBar.vue'
 import MahjongTile from './MahjongTile.vue'
@@ -16,9 +16,6 @@ const hint = ref('')
 
 const self = computed(() => snapshot.value.seats.find((seat) => seat.place === 'self'))
 const opponents = computed(() => snapshot.value.seats.filter((seat) => seat.place !== 'self'))
-function meldsOf(place: SeatPlace) {
-  return snapshot.value.seats.find((seat) => seat.place === place)?.melds ?? []
-}
 
 watch(
   () => self.value?.hand.map((tile) => tile.id).join(','),
@@ -98,9 +95,6 @@ function run(command: PlayerCommand) {
           :class="`river-${river.place}`"
           :aria-label="`${river.name}的出牌`"
         >
-          <div class="river-melds">
-            <MeldGroup v-for="(meld, index) in meldsOf(river.place)" :key="index" :meld="meld" />
-          </div>
           <div class="river-tiles">
             <MahjongTile v-for="tile in river.tiles" :key="tile.id" :face="tile" size="river" />
             <MahjongTile v-if="river.pending" :face="river.pending" size="river" live />
@@ -122,6 +116,9 @@ function run(command: PlayerCommand) {
         <span v-if="self?.dealer" class="dealer">庄</span>
         <span class="score">{{ formatScore(self?.score ?? 0) }}</span>
       </header>
+      <div class="seat-melds self-melds" aria-label="你的吃碰杠">
+        <MeldGroup v-for="(meld, index) in self?.melds ?? []" :key="index" :meld="meld" />
+      </div>
       <ActionBar
         :actions="snapshot.actions"
         :can-discard="snapshot.canDiscard"
