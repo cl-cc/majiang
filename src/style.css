@@ -372,6 +372,12 @@ h2 {
   min-height: 0;
   overflow: hidden;
   gap: 4px;
+  border-radius: 8px;
+}
+
+.river.is-discarding {
+  box-shadow: inset 0 0 0 3px #e39b14;
+  background: rgba(227, 155, 20, 0.18);
 }
 
 .river-top,
@@ -806,13 +812,23 @@ button.tile {
 }
 
 .tile.is-live {
-  outline: 2px solid var(--gold);
+  outline: 3px solid #e39b14;
   outline-offset: 1px;
+}
+
+.tile.is-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: rgba(255, 176, 40, 0.34);
+  box-shadow: inset 0 0 0 3px #e39b14;
+  pointer-events: none;
 }
 
 .river .tile.is-live {
   outline: none;
-  box-shadow: inset 0 0 0 2px var(--gold);
 }
 
 .tile-back.is-fallback {

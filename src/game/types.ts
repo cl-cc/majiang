@@ -34,6 +34,7 @@ export interface RiverView {
   readonly place: SeatPlace
   readonly tiles: readonly TileFace[]
   readonly pending: TileFace | null
+  readonly discarding: boolean
 }
 
 export type PlayerCommand =

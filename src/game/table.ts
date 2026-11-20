@@ -560,11 +560,13 @@ class TableSession implements GameController {
 
   private riverView(seat: PlayerIndex, name: string, place: SeatPlace): RiverView {
     const pending = this.pendingDiscard(seat)
+    const phase = this.state?.phase
     return {
       name,
       place,
       tiles: this.rivers[seat].map((tile) => presentTile(tile)),
       pending: pending === null ? null : presentTile(pending),
+      discarding: phase?.type === 'discard' && this.state?.current === seat,
     }
   }
 
@@ -680,7 +682,7 @@ function emptySnapshot(round = 1): GameSnapshot {
     notice: '正在发牌',
     turnText: '正在发牌',
     seats: SEATS.map((seat) => emptySeat(seat.seat, seat.name, seat.place)),
-    rivers: SEATS.map((seat) => ({ name: seat.name, place: seat.place, tiles: [], pending: null })),
+    rivers: SEATS.map((seat) => ({ name: seat.name, place: seat.place, tiles: [], pending: null, discarding: false })),
     actions: [],
     canDiscard: false,
     settlement: null,

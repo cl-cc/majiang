@@ -92,7 +92,7 @@ function run(command: PlayerCommand) {
           v-for="river in snapshot.rivers"
           :key="river.place"
           class="river"
-          :class="`river-${river.place}`"
+          :class="[`river-${river.place}`, { 'is-discarding': river.discarding }]"
           :aria-label="`${river.name}的出牌`"
         >
           <div class="river-tiles">
